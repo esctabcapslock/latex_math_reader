@@ -1,0 +1,20 @@
+\( f(x)=f(a)+f'(a)(x-a)+ \frac{f''(a)}{2!} (x-a)^2 + ... \frac {f^n (a)} {n!} (x-a)^n + M(x-a)^{n+1} \) 가정하면,
+\( M= \frac{f^{n+1}}{(n+1)!} \)이면 된다.
+
+
+여기서 함수 \( F : [a,b] \to \mathbb{R} \),
+\( t \in [a,b] \to F(t) \in \mathbb{R} \)
+\( F(t) = f(t) + f'(t)(x-t) + \frac{f''(t)}{2!} (x-t)^2 + \cdots + \frac { f^n (t) } { n!} (x-t)^n + M ( x-t )^{n+1} \)
+\( F(a) = f(a)\)
+\( F(x) = f(x)\)
+롤의 정리에 의해, \( F'(c)=0\)인 \(c \in (a,x) \)가 적어도 하나 존재.
+
+\( F'(t) = f'(t) \)
+\(\quad\quad+ f''(t)(x-t) - f'(t) \) 
+\(\quad\quad+ \frac{f''(t)}{2!} (x-t)^2 - 2 \frac{f''(t)}{2!} (x-c) \)
+\(\quad\quad+\cdots \)
+\(\quad\quad \frac{f^{n+1} f(t) }{n!} (x-t)^n - n \frac{f^n (t) } {n!} (x-t)^{n-1} \)
+\(\quad\quad - (n+1) M (x-t)^n \)
+\(\quad\quad = \frac{f^{n+1} (t)}{n!} (x-t)^n - (n+1)M(x-c)^n =0 \)
+여기서, \( (x-c)^n \not = 0 \)이므로,
+\( \therefore M = \frac {f^{n+1} (c) } {(n+1)!} \)

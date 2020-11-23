@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>수학</title>
+
+    <script>
+        list=[]
+        function reload(){
+        fetch('./html').then((응답)=>{
+            return 응답.text();
+        }).then((Data)=>{
+            //console.log('data',Data);
+            
+            var list=eval(Data)
+            var out=''
+            console.log(list)
+            for(var i=0;i<list.length;i++){
+                out+=`<li onclick=open_file("${list[i]}")>${list[i]}</li>`;
+            }
+            document.getElementById("nav").innerHTML=out
+        })
+        }
+        
+        window.onload = reload
+        
+        function open_file(str){
+            fetch('./files/'+str).then((응답)=>{
+            return 응답.text();
+            }).then((Data)=>{
+                
+                var art = document.getElementById('art')
+                art.innerHTML = "<p>" + Data.split('\n').join(' </p><p>') + "</p>"
+                MathJax.typeset([art])
+                
+            })
+        }
+        
+
+    </script>
+    <style>
+        p {height: 1em;}
+    </style>
+</head>
+
+<body>
+  <a href="./edit">수정하기</a>
+   <nav id='nav'></nav>
+    <script src="js/mathjax@3es5tex-mml-chtml.js"></script>
+    <script id="MathJax-script" async src="js/polyfill.iov3polyfill.min.js"></script>
+    <article id='art'></article>
+</body>
+
+</html>

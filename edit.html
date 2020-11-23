@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>가</title>
+    
+<!--    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
+<!--<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>-->
+       <script src="js/mathjax@3es5tex-mml-chtml.js"></script>
+    <script id="MathJax-script" async src="js/polyfill.iov3polyfill.min.js"></script>
+    <script>
+        function change(){
+            
+        }
+    </script>
+    <style>
+        p{
+            border-bottom: 1px solid black;
+        }
+        article{
+            border: 0
+        }
+        article:hover{
+            border: 0
+        }
+        article:focus{
+            border: 0;
+            margin: 0;
+            padding: 0;
+            outline-width: 0;
+            
+        }
+    </style>
+</head>
+<body>
+   <Script>
+        var pre_row = 1
+        
+        function down_change(e){
+            //console.log('down',pre_row,e.key)
+            if (['Enter','ArrowDown','ArrowUp'].includes(e.key)){
+                //console.log('down yes key')
+                var x=art.childNodes[pre_row]
+                x.value = x.innerHTML.trim();
+                MathJax.typeset([x])
+                
+                 pre_row+= e.key=='ArrowUp' ? -1 : 1
+                if (pre_row<1) pre_row=1
+                if (pre_row>art.childElementCount) pre_row=art.childElementCount
+                
+                
+                var x=art.childNodes[pre_row]
+                //console.log(x)
+                if (e.key!='Enter') x.innerHTML = x.value  ? x.value : '<br>'
+            }
+            else if(art.childNodes.length<=1){
+                //console.log(art.childNodes)
+                    if (pre_row<1) pre_row=1
+                    art.innerHTML=' <p onclick="click_change(this)"><br></p>'
+                    art.childNodes[1].focus()
+            }
+            else if (
+                ((['Backspace'].includes(e.key)) && (!art.childNodes[pre_row].innerHTML))){// <--키와 backspaace키 구분해야. <br>을!
+// || !art.childNodes[pre_row].innerHTML.replace(/<br>/g,'')
+                pre_row-=1
+                x=art.childNodes[pre_row]
+                if (e.key!='Enter') x.innerHTML = x.value  ? x.value : '<br>'
+            }
+               
+            
+        }
+       function click_change(e){
+           //console.log('change_pre',pre_row,e)
+           
+            if (pre_row!=get_ind(e)){
+                //console.log('다름')
+                
+                var x=art.childNodes[pre_row]
+                if (x && pre_row>0){
+                    x.value = x.innerHTML.trim();
+                    MathJax.typeset([x])
+                }
+                
+                 pre_row=get_ind(e)
+                 var x=art.childNodes[pre_row]
+                 x.innerHTML = x.value ? x.value : '<br>'
+            }
+            else pre_row=get_ind(e)
+           
+           var x=art.childNodes[pre_row]
+            //console.log(x)
+       }
+       
+       var list=[]
+       var chack=[]
+       
+       function get_ind(t){
+           for (var i=1;i<art.childNodes.length;i++){
+               if (t==art.childNodes[i]) return i
+           }
+           return 0;
+       }
+       
+       
+       function output(){
+           out=''
+            for (i=1; i<=art.childElementCount;i++) {
+                x=art.childNodes[i].value
+                    
+                out+= x?x.replace(/<br>/g,'\n'):''
+                out+='\n'
+            }
+           return out;
+       }
+    
+       
+       function save(){
+          var f= document.getElementById('save_form')
+          if (!f.childNodes[0].value) alert('파일 이름 입력하기')
+           else{
+               f.childNodes[1].value=output()
+               f.submit()
+           }
+       }
+    </Script>
+    <nav>
+    <a href="./">돌아가기</a>
+        <form id='save_form' action="./save" method="POST" enctype="text/plain"><input name='name' id='f_name'><input type="hidden" name='text'><button onclick="save()">저장</button></form>
+    </nav>
+    <article id='art' contenteditable onkeyup='down_change(event)' onload='this.innerText=""'>
+        <p onclick="click_change(this)" onkeydown="console.log('야')" onload='this.focus()'>_</p>    
+    </article>
+    <script>var art = document.getElementById('art')</script>
+</body>
+</html>
